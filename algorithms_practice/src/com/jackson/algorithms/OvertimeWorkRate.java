@@ -17,14 +17,14 @@ public class OvertimeWorkRate {
         int[] ex4 = new int[]{4,4,4};
         int[] ex5 = new int[]{5,6,6};
 
-        System.out.println(solution3(4, ex1) == 12);
-        System.out.println(solution3(1, ex2) == 6);
-        System.out.println(solution3(3, ex3) == 0);
-        System.out.println(solution3(5, ex4) == 17);
-        System.out.println(solution3(5, ex5) == 16*3);
+        System.out.println(solution4(4, ex1) == 12);
+        System.out.println(solution4(1, ex2) == 6);
+        System.out.println(solution4(3, ex3) == 0);
+        System.out.println(solution4(5, ex4) == 17);
+        System.out.println(solution4(5, ex5) == 16*3);
     }
 
-    public static long solution(int n, int[] works) {
+    private static long solution(int n, int[] works) {
         long answer = 0;
         reverseSort(works);
 
@@ -71,8 +71,7 @@ public class OvertimeWorkRate {
         return answer;
     }
 
-
-    public static long solution2(int n, int[] works) {
+    private static long solution2(int n, int[] works) {
         long answer = 0;
         reverseSort(works);
         outerloop:
@@ -110,38 +109,85 @@ public class OvertimeWorkRate {
         return answer;
     }
 
-    public static long solution3(int n, int[] works) {
+    private static long solution3(int n, int[] works) {
         long answer = 0;
+
+        if(works.length == 1){
+            works[0] = works[0] - n;
+            return (long) works[0] * works[0];
+        }
+
 
         outerloop:
         while(n > 0){
             reverseSort(works);
-            System.out.println("n : " + n);
-            Arrays.stream(works).forEach(System.out::print);
-            System.out.println();
+//            System.out.println("n : " + n);
+//            Arrays.stream(works).forEach(System.out::print);
+//            System.out.println();
+            if(works[0] == 0) break;
             while (works[0] >= works[1]) {
+                if(works[0] == 0) break;
                 works[0]--;
                 n--;
                 if(n == 0)break outerloop;
-                System.out.println("inner n : " + n);
-                Arrays.stream(works).forEach(System.out::print);
-                System.out.println();
+//                System.out.println("inner n : " + n);
+//                Arrays.stream(works).forEach(System.out::print);
+//                System.out.println();
             }
         }
 
         for(int work : works) answer += (long) work * work;
 
-        System.out.println(" ======== DONE ======== n : " + n);
-        System.out.println("result : " + answer);
+//        System.out.println(" ======== DONE ======== n : " + n);
+//        System.out.println("result : " + answer);
         return answer;
     }
 
-    public static void reverseSort(int[] arr){
+    private static long solution4(int n, int[] works){
+        long answer = 0;
+
+        // 1 length가 1인 경우 빠르게 처리해주자
+        if(works.length == 1){
+            works[0] = works[0] - n;
+            if(works[0] < 0) return 0;
+            return (long) works[0] * works[0];
+        }
+
+        // 내림차순으로 정렬
+        reverseSort(works);
+
+        // 우선순위 큐로 만들어준 뒤
+        // 0번째 인자에서 하나씩 빼줌
+        while (n > 0){
+            priorityQueue(works);
+            if(works[0] == 0) break;
+            works[0]--;
+            n--;
+        }
+
+        // 제곱해서 더해줍니다.
+        for (int work: works) answer += (long) work * work;
+
+        return answer;
+    }
+
+    private static void reverseSort(int[] arr){
         Arrays.sort(arr);
         for(int i = 0; i < arr.length / 2; i++){
             int temp = arr[i];
             arr[i] = arr[arr.length - i - 1];
             arr[arr.length - i - 1] = temp;
+        }
+    }
+
+    // 배열로 된 우선순위 큐를 만들어주자
+    private static void priorityQueue(int[] arr){
+        for(int i = 0; i < arr.length-1; i++){
+            if(arr[i] < arr[i+1]){
+                int temp = arr[i+1];
+                arr[i+1] = arr[i];
+                arr[i] = temp;
+            }else break;
         }
     }
 }
