@@ -9,11 +9,13 @@ public class BracketRotation {
         String ex2 = "}]()[{";
         String ex3 = "[)(]";
         String ex4 = "}}}";
+        String ex5 = "([]){}";
 
-        System.out.println(solution(ex1) == 3);
-        System.out.println(solution(ex2) == 2);
-        System.out.println(solution(ex3) == 0);
-        System.out.println(solution(ex4) == 0);
+//        System.out.println(solution(ex1) == 3);
+//        System.out.println(solution(ex2) == 2);
+//        System.out.println(solution(ex3) == 0);
+//        System.out.println(solution(ex4) == 0);
+        System.out.println(solution(ex5));
     }
 
     private static int solution(String s) {
@@ -33,9 +35,10 @@ public class BracketRotation {
     private static boolean validStr(String s) {
         String temp = s;
         for(int i = 0; i < rightStrArr.length; i++){
+            System.out.println(temp);
             if(temp.contains(rightStrArr[i])){
                 temp = temp.replace(rightStrArr[i], "");
-                i = 0;
+                i = -1;
             }
             if(temp.equals(""))return true;
         }
