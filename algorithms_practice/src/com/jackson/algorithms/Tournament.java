@@ -20,21 +20,18 @@ public class Tournament {
     }
 
     /*
-    *
-    * 둘 중의 작은 수가 n/2 보다 작은지 확인 ->
-    * 작으면 큰 수가 n/2보다 작은지 확인 - 큰 경우 = 주어진 n이 2의 지수값 => 2의 지수값
-    * 작은 경우
-    * 둘 중의 작은 수가 n/2/2 보다 작은지 확인 ->
-    * ...
-    *
-    *
-    *
+    * n = 2^x
+    * 작은 수가 2^(n-1) 보다 작거나 같고, 큰 수가 2^(n-1) 보다 클 경우
+    * 대진표에서 n번째에서 만나게 된다.
     * */
 
     private static int solution(int n, int a, int b) {
         int answer = 0;
+        // 지수 반환
         int exponent = Math.getExponent(n);
+        // 큰 수
         int bigger = Math.max(a, b);
+        // 작은 수
         int smaller = Math.min(a, b);
 
         for(int i = exponent - 1; i >= 0; i--){
